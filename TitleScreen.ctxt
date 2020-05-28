@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=TitleScreen
+comment0.text=\r\n\ Clase\ de\ la\ Pantalla\ de\ Titulo\r\n\ La\ Pantalla\ de\ Titulo\r\n
+comment1.params=
+comment1.target=TitleScreen()
+comment2.params=
+comment2.target=void\ playTitleSound()
+comment3.params=
+comment3.target=void\ act()
+numComments=4
