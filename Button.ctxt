@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.target=Button
+comment0.text=\r\n\ Clase\ Boton\r\n\ Los\ Botones\ de\ las\ Pantallas\r\n
+comment1.params=
+comment1.target=Button()
+comment2.params=ancho\ altura
+comment2.target=Button(int,\ int)
+comment3.params=
+comment3.target=void\ act()
+numComments=4
