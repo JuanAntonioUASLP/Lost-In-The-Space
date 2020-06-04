@@ -15,5 +15,5 @@ aunque se espera que agrade o interese a personas que disfruten de
 juegos más retro.
 
 ## Diagramas de clases
-![Diagrama de clases](DiagramaUML.png)
-![Diagrama de clases](MyWorld.png)
+![Diagrama de clases](images/DiagramaUML.png)
+![Diagrama de clases](images/MyWorld.png)
