@@ -22,7 +22,7 @@ public class Enemy extends Entity
     // Tiempo antes de que desaparezca el enemigo abatido
     private int death_time = 0;
     
-    // Tiempo antes de que desaparezca el enemigo abatido
+    // Tiempo limite antes de que desaparezca el enemigo abatido
     private final int LIMIT_DEATH = 15;
     
     // Metodo principal de la clase
@@ -59,7 +59,7 @@ public class Enemy extends Entity
         //Imagenes que representan al enemigo
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
         
         //Inicializacion del tiempo de muerte
         this.death_time = 0;
@@ -232,8 +232,8 @@ public class Enemy extends Entity
     
     // Se define la imagen actual del enemigo
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Se confirma si un enemigo ha muerto
@@ -251,7 +251,7 @@ public class Enemy extends Entity
     
     // Se hace la animacion de que explota un enemigo cuando muere
     public void enemyExplodes(){
-        this.actualicePhoto(1);
+        this.updatePhoto(1);
         if(this.getDeathTime() == LIMIT_DEATH)
         {
             World world = this.getWorld();

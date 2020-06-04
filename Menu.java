@@ -40,10 +40,43 @@ public class Menu extends World
         this.addObject(exit, 300, 327);
     }
     
+    /* Se aplica el efecto de boton a los botones
+    public void buttonEffect(){
+        mouse = Greenfoot.getMouseInfo();
+        if (mouse != null){
+            if(Greenfoot.mouseMoved(control)){
+                GreenfootImage area = new GreenfootImage(start.getWidth(), start.getHeight());
+                area.setColor(Color.GREEN);
+                area.fillRect(300, 52, start.getWidth(), start.getHeight());
+                area.setTransparency(100);
+            }
+            if(Greenfoot.mouseMoved(control)){
+                GreenfootImage area = new GreenfootImage(control.getWidth(), control.getHeight());
+                area.setColor(Color.GREEN);
+                area.fillRect(300, 144, control.getWidth(), control.getHeight());
+                area.setTransparency(100);
+            }
+            if(Greenfoot.mouseMoved(story)){
+                GreenfootImage area = new GreenfootImage(story.getWidth(), story.getHeight());
+                area.setColor(Color.GREEN);
+                area.fillRect(300, 236, story.getWidth(), story.getHeight());
+                area.setTransparency(100);
+            }
+            if(Greenfoot.mouseMoved(exit)){
+                GreenfootImage area = new GreenfootImage(exit.getWidth(), exit.getHeight());
+                area.setColor(Color.GREEN);
+                area.fillRect(300, 327, exit.getWidth(), exit.getHeight());
+                area.setTransparency(100);
+            }
+        }
+    }
+    */
+    
     // En este metodo se detecta que botón se presiona
     // para cambiar de pantalla
     public void act()
     {
+        //buttonEffect();
         mouse = Greenfoot.getMouseInfo();
         if (mouse != null && mouse.getButton() == 1)
         {

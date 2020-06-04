@@ -62,7 +62,7 @@ public class Player extends Entity
         if (!getDeath())
         {
             interact();
-            actualicePosition();
+            updatePosition();
             animation();
             increasePower();
         }
@@ -101,7 +101,7 @@ public class Player extends Entity
         //Fotogramas de entidad jugador
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
         
         //Inicialización de los tiempos
         this.shot_time = SHOT_LIMIT;
@@ -311,8 +311,8 @@ public class Player extends Entity
     
     // Se actualiza la imagen a la que se va a usar
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Metodo que controla el movimiento del presonaje
@@ -368,27 +368,33 @@ public class Player extends Entity
                 switch(this.getPower())
                 {
                     // Balas Simples: Una bala simple.
-                    case 0: Proyectile p11 = new Proyectile(this.getX(), this.getY() - 12, this.getPower(), 0, -8, proy1); 
+                    case 1: Proyectile p11 = new Proyectile(this.getX(), this.getY() - 12, this.getPower(), 0, -8, proy1); 
                             world.addObject(p11, p11.getPositionX(), p11.getPositionY());
-                            this.setShotTime(0);
+                            this.setShotTime(-3);
                             break;
                     
                     // Balas Simples Mas Rapidas: Una bala simple pero mas rapida.
-                    case 1: Proyectile p12 = new Proyectile(this.getX(), this.getY() - 12, this.getPower(), 0, -12, proy1); 
+                    case 2: Proyectile p12 = new Proyectile(this.getX(), this.getY() - 12, this.getPower(), 0, -12, proy1); 
                             world.addObject(p12, p12.getPositionX(), p12.getPositionY());
-                            this.setShotTime(0);
-                            break;
-                            
-                    // Balas Grandes: Balas de mayor tamaño.
-                    case 2: Proyectile p21 = new Proyectile (this.getX(), this.getY() - 12, this.getPower(), 0, -9, proy2);
-                            world.addObject(p21, p21.getPositionX(), p21.getPositionY());
                             this.setShotTime(0);
                             break;
                             
                     // Balas Amplias: Tienen una hitbox mas amplia.
                     case 3: Proyectile p31 = new Proyectile (this.getX(), this.getY() - 12, this.getPower(), 0, -8, proy3);
                             world.addObject(p31, p31.getPositionX(), p31.getPositionY());
-                            this.setShotTime(-5);
+                            this.setShotTime(-3);
+                            break;
+                            
+                    // Balas Grandes: Balas de mayor tamaño y Rapidas        
+                    case 4: Proyectile p21 = new Proyectile (this.getX(), this.getY() - 12, this.getPower(), 0, -9, proy2);
+                            world.addObject(p21, p21.getPositionX(), p21.getPositionY());
+                            this.setShotTime(0);
+                            break;
+                            
+                    // Balas Amplias: Tienen una hitbox mas amplia.
+                    case 5: Proyectile p32 = new Proyectile (this.getX(), this.getY() - 12, this.getPower(), 0, -8, proy3);
+                            world.addObject(p32, p32.getPositionX(), p32.getPositionY());
+                            this.setShotTime(-2);
                             break;
                 }
             }
@@ -396,7 +402,7 @@ public class Player extends Entity
     }
     
     // Se actualiza la posicion del jugador segun sus atributos de velocidad
-    public void actualicePosition(){
+    public void updatePosition(){
         // Se actualiza la posicion
         this.setX(this.getX() + this.getVelocityX());
         this.setY(this.getY() + this.getVelocityY());
@@ -411,20 +417,20 @@ public class Player extends Entity
         // El jugador no se ha movido por un tiempo
         if (getStaticTime() == STATIC_LIMIT)
         {
-            this.actualicePhoto(0);
+            this.updatePhoto(0);
             this.setLeftTime(0);
             this.setRightTime(0);
         }
         else
         if (getLeftTime() == PHOTO_LIMIT)
         {
-            this.actualicePhoto(1);
+            this.updatePhoto(1);
         }
         // El jugador se mueve a la derecha
         else
         if (getRightTime() == PHOTO_LIMIT)
         {
-            this.actualicePhoto(2);
+            this.updatePhoto(2);
         }
     }
     
@@ -458,6 +464,13 @@ public class Player extends Entity
                         this.setHearts(this.getHearts() + 1);
                     }
                     break;
+            // Nivel 4 -> Nivel 5
+            case 4: if(this.getScore() >= 5000)
+                    {
+                        this.setScore(0);
+                        this.setHearts(this.getHearts() + 1);
+                    }
+                    break;
         }
     }
     
@@ -481,7 +494,7 @@ public class Player extends Entity
         if (this.getStaticTime() == DEATH_TIME)
         {
             damage_player.play();
-            this.actualicePhoto(3);
+            this.updatePhoto(3);
         }
         // Cuando se pasa este limite, se reduce la cantidad de vidas,
         // se reinicia la experiencia y se coloca al JUGADOR en una
@@ -491,7 +504,7 @@ public class Player extends Entity
             this.setHearts(this.getHearts() - 1);
             if (this.getHearts() != 0)
             {
-                this.actualicePhoto(0);
+                this.updatePhoto(0);
                 this.setScore(0);
                 this.setLocation(300,300);
                 this.setDeath(false);

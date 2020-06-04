@@ -47,7 +47,7 @@ public class EnemyOneOne extends EnemyOne
         //Fotogramas del enemigo1.1
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
         
         //Inicialización del tiempo
         this.setDeathTime(0);
@@ -300,8 +300,8 @@ public class EnemyOneOne extends EnemyOne
     
     // Se define la imagen actual del enemigo
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Se confirma si un enemigo ha muerto

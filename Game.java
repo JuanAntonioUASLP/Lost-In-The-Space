@@ -5,13 +5,8 @@ import java.util.Random;
 import java.lang.Math;
 
 /** 
- * Clase encargada de la simulación de todo el juego.
- * <p>
- * En esta pantalla, se realiza la simulación de todo el juego. Eso incluye
- * crear al Jugador, agregar Enemigos al mundo, mostrar en pantalla la interfaz
- * del juego y mantener el juego en marcha hasta que el Jugador se quede sin vidas.
- * 
- * @author Moctezuma Luna Alejandro
+ * Clase del Juego
+ * Se llaman los metodos para que se ejecuten e interactuen entre si
  */
 public class Game extends World
 {   
@@ -45,6 +40,9 @@ public class Game extends World
     // Posicion en X donde se generaran los enemigos
     private int pos;
     
+    // Bandera de creacion del Boss
+    boolean boss_flag = true;
+    
     // Direccion en que se moveran los enemigos
     private int dir;
     
@@ -69,6 +67,9 @@ public class Game extends World
     // Datos del jugador
     private Player player;
     
+    // Datos del boss
+    private Boss boss;
+    
     // Datos del HUD
     private Interface hud;
     
@@ -90,11 +91,17 @@ public class Game extends World
     // Star
     private final GreenfootImage star = new GreenfootImage("Star.png");
     
+    // Boss
+    private final GreenfootImage boss_image = new GreenfootImage("Boss.gif");
+    
     // Asteroide
     private final GreenfootImage asteroid = new GreenfootImage("Asteroid.png");
     
     // Explosion
     private final GreenfootImage explosion = new GreenfootImage("Explosion.png");
+    
+    // Explosion boss
+    private final GreenfootImage explosion_boss = new GreenfootImage("Explosion_Boss.png");
     
     // Musica de fondo
     private final GreenfootSound music = new GreenfootSound("Music.mp3");
@@ -102,14 +109,18 @@ public class Game extends World
     // Musica de perder
     private final GreenfootSound lose_music = new GreenfootSound("Game_Over.mp3");
     
+    // Musica de ganar
+    private final GreenfootSound victory_music = new GreenfootSound("Victory.mp3");
+    
     // Constructor princial, se inicializan valores del mundo y del juego
     public Game()
     {    
         // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
         super(600, 400, 1);
         
-        // Se crea el jugador
+        // Se crean el jugador y el Boss
         player = new Player(300, 300, 3, 0, 1, player_frente, player_izq, player_der, explosion);
+        boss = new Boss(300, 30, boss_image, explosion_boss);
         
         // Se crea la interfaz
         hud = new Interface();
@@ -138,13 +149,13 @@ public class Game extends World
         setPaintOrder(Player.class, Proyectile.class, Enemy.class, Interface.class);
         setBackground("Fondo.png");
         this.addObject(player, player.getPositionX(), player.getPositionY());
-        this.addObject(hud, 80, 30);
+        this.addObject(hud, 55, 28);
+        music.setVolume(30);
         music.playLoop();
     }
     
     // Metodo principal del juego, hace cambios en el mundo mientras esta corriendo el juego
     public void act(){
-        int salir = 1, flag = 0;
         // Se realiza mientras el juego este en ejecución
         if(executeGame)
         {   
@@ -153,6 +164,9 @@ public class Game extends World
             
             // Si el jugador ya no tiene vidas termina el juego
             if(player.getHearts() == 0)
+                executeGame = false;
+                
+            if(boss.getDeath() == true)
                 executeGame = false;
 
             // Si el jugador muere, se eliminan a todos los enemigos en pantalla
@@ -189,14 +203,28 @@ public class Game extends World
         // El juego termina
         else
         {
-            music.stop();
-            if(end_timer == 0){
-                lose_music.play();
+            if(boss.getDeath()){
+                music.stop();
+                if(end_timer == 0){
+                    lose_music.play();
+                }
+                end_timer++;
+                if(end_timer == END_TIMER_LIMIT){
+                    Greenfoot.setWorld(new TitleScreen());
+                }
             }
-            end_timer++;
-            if(end_timer == END_TIMER_LIMIT){
-                Greenfoot.setWorld(new TitleScreen());
+            else
+            {
+                music.stop();
+                if(end_timer == 0){
+                    victory_music.play();
+                }
+                end_timer++;
+                if(end_timer == END_TIMER_LIMIT){
+                    Greenfoot.setWorld(new TitleScreen());
+                }
             }
+            
         }
     }
     
@@ -397,6 +425,57 @@ public class Game extends World
                             }
                         }
                         break;
+                // Poder 5
+                case 5: // Boss
+                        if (boss_flag == true){
+                            addBoss();
+                            boss_flag = false;
+                        }
+                        
+                        // Enemigo colision
+                        if (this.type == 1)
+                        {
+                            if (this.klass <= 4)                         //40%: Enemigo 01
+                            {
+                                this.klass = 1;
+                                this.size = 4;
+                                this.dir = rand.nextInt(2);
+                                // Izquierda
+                                if (this.dir == 0)
+                                    this.pos = rand.nextInt(100) + 100;
+                                // Derecha
+                                else
+                                    this.pos = rand.nextInt(400) + 100;
+                            }
+                            else                                         //60%: Enemigo 02
+                            {
+                                this.klass = 2;
+                                this.size = 8;
+                                this.pos = rand.nextInt(200) + 200;
+                            }
+                        }
+                        // Enemigo disparo
+                        else
+                        {
+                            if (this.klass <= 4)                         //40%: Enemigo 01
+                            {
+                                this.klass = 1;
+                                this.size = 15;
+                                this.dir = rand.nextInt(2);
+                                // Izquierda
+                                if (this.dir == 0)
+                                    this.pos = rand.nextInt(100) + 100;
+                                // Derecha
+                                else
+                                    this.pos = rand.nextInt(100) + 400;
+                            }
+                            else                                         //60%: Enemigo 02
+                            {
+                                this.klass = 2;
+                                this.size = 10;
+                            }
+                        }
+                        break;
             }
             // La oleada fue definida exitosamente
             newWave = true;
@@ -458,6 +537,12 @@ public class Game extends World
         this.addObject(disp2, disp2.getPositionX(), disp2.getPositionY());
     }
     
+    // Se agrega el boss
+    public void addBoss()
+    {
+        this.addObject(boss, boss.getPositionX(), boss.getPositionY());
+    }
+    
     // Se verifican tiempos
     public void verifyTimes(){
         // Si el escenario esta libre de enemigos se contea el tiempo
@@ -492,7 +577,7 @@ public class Game extends World
         List<Enemy> enemies = this.getObjects(Enemy.class);
         // Si ya no quedan enemigos se reinician los tiempos
         // y se genera una nueva oleada.
-        if (enemies.size() == 0)
+        if (enemies.size() == 0 || boss.getDeath() == false)
         {
             newWave = false;
             generateNewEnemies = false;

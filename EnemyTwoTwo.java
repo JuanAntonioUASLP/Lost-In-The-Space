@@ -28,7 +28,7 @@ public class EnemyTwoTwo extends EnemyTwo
     private final int MOVE_LIMIT = 60;
     
     // Numero maximo de disparos que tiene por hacer el enemigo
-    private final int MADE_SHOT_LIMIT = 6;
+    private final int MADE_SHOT_LIMIT = 3;
     
     // Tiempo maximo antes de volver a disparar
     private final int SHOT_LIMIT = 80;
@@ -80,7 +80,7 @@ public class EnemyTwoTwo extends EnemyTwo
         //Fotogramas del enemigo2.2
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
         
         //Inicialización del tiempo
         this.setDeathTime(0);
@@ -91,7 +91,7 @@ public class EnemyTwoTwo extends EnemyTwo
     // Se definen atributos del enemigo
     public void startPath(){
         this.setLoot(50);
-        this.setHP(40);
+        this.setHP(30);
         this.setVelocityX(0);
         this.setVelocityY(30);
         this.setCreated(true);
@@ -320,8 +320,8 @@ public class EnemyTwoTwo extends EnemyTwo
     
     // Se define la imagen actual del enemigo
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Se confirma si un enemigo ha muerto
@@ -413,8 +413,9 @@ public class EnemyTwoTwo extends EnemyTwo
                     world.addObject(right, right.getPositionX(), right.getPositionY());
                     
                     // Se reproduce el efecto de sonido
-                    if (this.getShotsMade() == 0)
-                        shot.play();
+                    // if (this.getShotsMade() == 0)
+                    shot.setVolume(30);
+                    shot.play();
                     
                     // Se modifican los atributos
                     this.setShotsMade(this.getShotsMade() + 1);

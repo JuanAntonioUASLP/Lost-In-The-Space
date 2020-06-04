@@ -17,7 +17,7 @@ public class Proyectile extends Entity
     // Metodo principal de los proyectiles, necesario para su movimiento y su estado
     public void act() 
     {
-        actualicePosition();
+        updatePosition();
         if (this.getType() >= 1 && this.getType() <= 3)
             collisionEnemy();
         else
@@ -46,7 +46,7 @@ public class Proyectile extends Entity
         //Fotogramas del proyectil
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
     }
     
     // Se definen las imagenes del proyectil
@@ -178,12 +178,12 @@ public class Proyectile extends Entity
     
     // Se actualiza la imagen que va a ser utilizada
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Se actualiza la posicion del proyectil por su velocidad
-    public void actualicePosition(){
+    public void updatePosition(){
         this.setX(this.getX() + this.getVelocityX());
         this.setY(this.getY() + this.getVelocityY());
         
@@ -201,13 +201,19 @@ public class Proyectile extends Entity
         switch(this.getType())
         {
             //Tipo 1
-            case 1: damage = 1; 
+            case 1: damage = 2; 
                     break;
             // Tipo 2
             case 2: damage = 2;
                     break;
             // Tipo 3
             case 3: damage = 3;
+                    break;
+            // Tipo 4
+            case 4: damage = 3;
+                    break;
+            // Tipo 5
+            case 5: damage = 3;
                     break;
         }
         return damage;
@@ -217,19 +223,20 @@ public class Proyectile extends Entity
     public void collisionEnemy(){
         if (!this.getEliminated())
         {
+            // Se obtiene el mundo en el que se juega
+            World world = this.getWorld();
+            
             Enemy hit = (Enemy)(this.getOneIntersectingObject(Enemy.class));
             // Si el enemigo existe y no esta muerto
             if (hit != null && !hit.getDeath())
             {
                 // Se daña al enemigo con la fuerza del proyectil
                 hit.setHP(hit.getHP() - this.getPower());
+                world.removeObject(this);
                 
                 // Se confirma que la vida del enemigo sea 0
                 if (hit.confirmDeath())
                 {
-                    // Se obtiene el mundo en el que se juega
-                    World world = this.getWorld();
-                    
                     // Se obtiene la recompensa del enemigo y se le da al jugador
                     List<Player> player = world.getObjects(Player.class);
                     player.get(0).setScore(player.get(0).getScore() + hit.getLoot());

@@ -58,7 +58,7 @@ public class EnemyTwoOne extends EnemyTwo
         //Fotogramas del enemigo2.1
         this.buildPhotos(keyFrames);
         this.setNumPhotos(keyFrames.length);
-        this.actualicePhoto(0);
+        this.updatePhoto(0);
         
         //Inicialización del tiempo
         this.setDeathTime(0);
@@ -289,8 +289,8 @@ public class EnemyTwoOne extends EnemyTwo
     
     // Se define la imagen actual del enemigo
     @Override
-    public void actualicePhoto(int value){
-        super.actualicePhoto(value);
+    public void updatePhoto(int value){
+        super.updatePhoto(value);
     }
     
     // Se confirma si un enemigo ha muerto
@@ -375,6 +375,7 @@ public class EnemyTwoOne extends EnemyTwo
                     Proyectile proyectile = new Proyectile(this.getX(), this.getY() + 7, 4, 0, 2, this.getProyPhoto());
                     world.addObject(proyectile, proyectile.getPositionX(), proyectile.getPositionY());
                     this.setShotTime(0);
+                    shot.setVolume(30);
                     shot.play();
             }
         }

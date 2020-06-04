@@ -24,8 +24,16 @@ public class Button extends Actor
         this.setImage(area);
     }
     
-    // Metodo principal de las clases
+    // Metodo principal de la clase boton
     public void act()
     {
-    }    
+    }
+    
+    public int getHeight(){
+        return height;
+    }
+    
+    public int getWidth(){
+        return width;
+    }
 }

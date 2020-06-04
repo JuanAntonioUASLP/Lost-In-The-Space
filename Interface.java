@@ -15,20 +15,22 @@ public class Interface extends Actor
     
     // Se inicializa el texto del puntaje
     public Interface(){
-        text = "Puntuacion: " + 0 + " Poder: " + 0;
+        text = "Poder: " + 0;
     }
     
     // Se actualiza la informacion del texto
     public void actualiceScore(Player player)
     {
         int power = player.getPower();
-        text = "Poder: " + power;
+        int score = player.getScore();
+        int hearts = player.getHearts();
+        text = "Puntuacion: " + score + "\nPoder: " + power + "\nVidas: " + hearts;
     }
     
     // Se actualiza la informacion del puntaje en el HUD
     public void showScore()
     {
-        GreenfootImage area_text = new GreenfootImage(text, 35, new Color(255, 255, 255), new Color(0, 0, 0));
+        GreenfootImage area_text = new GreenfootImage(text, 20, new Color(255, 255, 255), null);
         this.setImage(area_text);
     }
 }

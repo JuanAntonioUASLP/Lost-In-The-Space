@@ -163,7 +163,7 @@ public class Entity extends Actor
    }
    
    // Actualiza cual es el fotograma que se usara de la entidad
-   public void actualicePhoto(int value){
+   public void updatePhoto(int value){
        if (value < this.num_photos)
            this.setImage(photos.get(value));
    }
