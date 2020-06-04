@@ -1,4 +1,4 @@
-# Lost in th space
+# Lost in the space
 > Leyva Patiño Juan Antonio
 > Davila Puente Diego
 
