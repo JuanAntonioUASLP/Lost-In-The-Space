@@ -9,6 +9,9 @@ import java.util.Random;
  */
 public class Boss extends Enemy
 {
+    // Sonido cuando el boss es eliminado
+    private final GreenfootSound kill_boss = new GreenfootSound("Damage_Player.mp3");
+    
     // Imagen del disparo del Boss
     private final GreenfootImage proy = new GreenfootImage("Proy4.png");
     
@@ -16,7 +19,7 @@ public class Boss extends Enemy
     private final GreenfootSound shot = new GreenfootSound("Enemy_Shot.mp3");
     
     // Tiempo maximo antes de volver a disparar el Boss
-    private final int SHOT_LIMIT = 50;
+    private final int SHOT_LIMIT = 150;
     
     // Tiempo entre cada disparo del Boss
     int shot_time;
@@ -69,8 +72,8 @@ public class Boss extends Enemy
     
     // Se definen los atributos del boss
     public void initBoss(){
-        this.setHP(500);
-        this.setCreated(true);
+        this.setHP(200);
+        this.setCreated(false);
     }
     
     // Se definen los fotogramas del Boss
@@ -245,11 +248,16 @@ public class Boss extends Enemy
     
     // Se hace la animacion de que explota el Boss cuando muere
     public void bossExplodes(){
-        this.updatePhoto(1);
+        
         if(this.getDeathTime() == LIMIT_DEATH)
         {
+            kill_boss.play();
+            this.updatePhoto(1);
+        }
+        if(this.getDeathTime() == LIMIT_DEATH * 4){
             World world = this.getWorld();
             world.removeObject(this);
+            this.setCreated(false);
         }
     }
     
@@ -268,11 +276,11 @@ public class Boss extends Enemy
             if (this.getShotTime() == SHOT_LIMIT)
             {
                     World world = this.getWorld();
-                    Proyectile proyectile1 = new Proyectile(this.getX() - 140, this.getY() + 70, 4, 0, 2, this.getProyPhoto());
-                    Proyectile proyectile2 = new Proyectile(this.getX() - 70, this.getY() + 75, 4, 0, 2, this.getProyPhoto());
-                    Proyectile proyectile3 = new Proyectile(this.getX(), this.getY() + 80, 4, 0, 3, this.getProyPhoto());
-                    Proyectile proyectile4 = new Proyectile(this.getX() + 70, this.getY() + 75, 4, 0, 2, this.getProyPhoto());
-                    Proyectile proyectile5 = new Proyectile(this.getX() + 140, this.getY() + 80, 4, 0, 2, this.getProyPhoto());
+                    Proyectile proyectile1 = new Proyectile(this.getX() - 140, this.getY() + 70, 6, 0, 2, this.getProyPhoto());
+                    Proyectile proyectile2 = new Proyectile(this.getX() - 70, this.getY() + 75, 6, 0, 2, this.getProyPhoto());
+                    Proyectile proyectile3 = new Proyectile(this.getX(), this.getY() + 80, 6, 0, 3, this.getProyPhoto());
+                    Proyectile proyectile4 = new Proyectile(this.getX() + 70, this.getY() + 75, 6, 0, 2, this.getProyPhoto());
+                    Proyectile proyectile5 = new Proyectile(this.getX() + 140, this.getY() + 80, 6, 0, 2, this.getProyPhoto());
                     world.addObject(proyectile1, proyectile1.getPositionX(), proyectile1.getPositionY());
                     world.addObject(proyectile2, proyectile2.getPositionX(), proyectile2.getPositionY());
                     world.addObject(proyectile3, proyectile3.getPositionX(), proyectile3.getPositionY());

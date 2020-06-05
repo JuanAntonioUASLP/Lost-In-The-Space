@@ -91,7 +91,7 @@ public class EnemyTwoTwo extends EnemyTwo
     // Se definen atributos del enemigo
     public void startPath(){
         this.setLoot(50);
-        this.setHP(30);
+        this.setHP(15);
         this.setVelocityX(0);
         this.setVelocityY(30);
         this.setCreated(true);
@@ -401,10 +401,10 @@ public class EnemyTwoTwo extends EnemyTwo
                     World world = this.getWorld();
                     
                     // Se crean los proyectiles al mundo
-                    Proyectile up = new Proyectile(this.getX(), this.getY() - 5, 4, 0, -4, this.getProyPhoto());
-                    Proyectile down = new Proyectile(this.getX(), this.getY() + 5, 4, 0, 4, this.getProyPhoto());
-                    Proyectile left = new Proyectile(this.getX() - 5, this.getY(), 4, -4, 0, this.getProyPhoto());
-                    Proyectile right = new Proyectile(this.getX() + 5, this.getY(), 4, 4, 0, this.getProyPhoto());
+                    Proyectile up = new Proyectile(this.getX(), this.getY() - 5, 6, 0, -4, this.getProyPhoto());
+                    Proyectile down = new Proyectile(this.getX(), this.getY() + 5, 6, 0, 4, this.getProyPhoto());
+                    Proyectile left = new Proyectile(this.getX() - 5, this.getY(), 6, -4, 0, this.getProyPhoto());
+                    Proyectile right = new Proyectile(this.getX() + 5, this.getY(), 6, 4, 0, this.getProyPhoto());
                     
                     // Se agregan los proyectiles al mundo
                     world.addObject(up, up.getPositionX(), up.getPositionY());
@@ -413,7 +413,6 @@ public class EnemyTwoTwo extends EnemyTwo
                     world.addObject(right, right.getPositionX(), right.getPositionY());
                     
                     // Se reproduce el efecto de sonido
-                    // if (this.getShotsMade() == 0)
                     shot.setVolume(30);
                     shot.play();
                     

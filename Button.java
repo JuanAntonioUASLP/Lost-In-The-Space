@@ -12,6 +12,9 @@ public class Button extends Actor
     // Alto del Boton
     private int height;
     
+       private boolean mouseOver = false;
+    private static int MAX_TRANS = 255;
+    
     // Constructor por Defecto
     public Button()
     {
@@ -36,4 +39,27 @@ public class Button extends Actor
     public int getWidth(){
         return width;
     }
+    
+      public void checkMouse(){
+        
+        if(Greenfoot.mouseMoved(null)){
+            mouseOver = Greenfoot.mouseMoved(this);
+            
+        }
+        
+        if(mouseOver){
+          adjustTransparency(MAX_TRANS/2);
+  
+        }
+        else{
+            adjustTransparency(255);
+        }
+    }
+    
+    public void adjustTransparency(int adjust){
+        GreenfootImage tempImage = getImage();
+        tempImage.setTransparency(adjust);
+        setImage(tempImage);
+    }
+  
 }

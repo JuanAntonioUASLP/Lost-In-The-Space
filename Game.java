@@ -3,6 +3,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.lang.Math;
+import java.time.*;
+import java.io.*;
 
 /** 
  * Clase del Juego
@@ -10,6 +12,12 @@ import java.lang.Math;
  */
 public class Game extends World
 {   
+    private long time_sec;
+    
+    Instant time_start = Instant.now();
+    
+    Instant time_finish;
+    
     // Genera numeros aleatorios
     Random rand = new Random();
     
@@ -148,6 +156,7 @@ public class Game extends World
         // Inicializando Juego
         setPaintOrder(Player.class, Proyectile.class, Enemy.class, Interface.class);
         setBackground("Fondo.png");
+        player.name = Greenfoot.ask("Introduce Tu Nombre: ");
         this.addObject(player, player.getPositionX(), player.getPositionY());
         this.addObject(hud, 55, 28);
         music.setVolume(30);
@@ -180,6 +189,7 @@ public class Game extends World
             // Si el jugador todavía tiene vidas se vuelve a agregar a los enemigos en pantalla
             if (executeGame && !player.getDeath() && killEnemies)
             {
+                boss.setCreated(false);
                 newWave = false;
                 generateNewEnemies = false;
                 generateEnemy = false;
@@ -205,11 +215,14 @@ public class Game extends World
         {
             if(boss.getDeath()){
                 music.stop();
-                if(end_timer == 0){
-                    lose_music.play();
+                if(end_timer == 100){
+                    victory_music.play();
                 }
                 end_timer++;
                 if(end_timer == END_TIMER_LIMIT){
+                    Instant time_finish = Instant.now();
+                    long time_record = Duration.between(time_start, time_finish).getSeconds();
+                    saveRecords(player.name, time_record);
                     Greenfoot.setWorld(new TitleScreen());
                 }
             }
@@ -217,10 +230,16 @@ public class Game extends World
             {
                 music.stop();
                 if(end_timer == 0){
-                    victory_music.play();
+                    lose_music.play();
                 }
                 end_timer++;
                 if(end_timer == END_TIMER_LIMIT){
+                    Instant time_finish = Instant.now();
+                    System.out.println(time_finish);
+                    System.out.println(time_start);
+                    Duration time_record = Duration.between(time_start, time_finish);
+                    time_sec = time_record.getSeconds();
+                    saveRecords(player.name, time_sec);
                     Greenfoot.setWorld(new TitleScreen());
                 }
             }
@@ -230,7 +249,7 @@ public class Game extends World
     
     // Se dibuja la interfaz en la pantalla
     public void hud(){
-        hud.actualiceScore(player);
+        hud.updateScore(player);
         hud.showScore();
     }
     
@@ -427,9 +446,9 @@ public class Game extends World
                         break;
                 // Poder 5
                 case 5: // Boss
-                        if (boss_flag == true){
+                        if (boss.getCreated() == false){
                             addBoss();
-                            boss_flag = false;
+                            boss.setCreated(true);
                         }
                         
                         // Enemigo colision
@@ -574,10 +593,11 @@ public class Game extends World
     public void verifyEnemies()
     {
         // Se obtiene la lista de todos los enemigos
-        List<Enemy> enemies = this.getObjects(Enemy.class);
+        List<EnemyOne> enemiesOne = this.getObjects(EnemyOne.class);
+        List<EnemyTwo> enemiesTwo = this.getObjects(EnemyTwo.class);
         // Si ya no quedan enemigos se reinician los tiempos
         // y se genera una nueva oleada.
-        if (enemies.size() == 0 || boss.getDeath() == false)
+        if (enemiesOne.size() == 0 && enemiesTwo.size() == 0)
         {
             newWave = false;
             generateNewEnemies = false;
@@ -600,5 +620,26 @@ public class Game extends World
         // Se eliminen los enemigos y proyectiles
         this.removeObjects(enemies);
         this.removeObjects(proyectiles);
+    }
+    
+    public void saveRecords(String name, long time){
+        int check_time;
+        FileWriter filewriter = null;
+        try{
+            filewriter = new FileWriter("Records.txt", true);
+            BufferedWriter bfwriter = new BufferedWriter(filewriter);
+            bfwriter.write(name + "\t," + time + "\n");
+            bfwriter.close();
+        }
+        catch(IOException e){
+        }
+        finally{
+            if(filewriter != null){
+                try{
+                    filewriter.close();
+                } catch(IOException e){
+                }
+            }
+        }
     }
 }

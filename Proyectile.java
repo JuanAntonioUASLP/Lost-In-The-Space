@@ -18,7 +18,7 @@ public class Proyectile extends Entity
     public void act() 
     {
         updatePosition();
-        if (this.getType() >= 1 && this.getType() <= 3)
+        if (this.getType() >= 1 && this.getType() <= 5)
             collisionEnemy();
         else
             collisionPlayer();
@@ -213,7 +213,7 @@ public class Proyectile extends Entity
             case 4: damage = 3;
                     break;
             // Tipo 5
-            case 5: damage = 3;
+            case 5: damage = 4;
                     break;
         }
         return damage;

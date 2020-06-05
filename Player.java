@@ -7,6 +7,10 @@ import java.util.ArrayList;
  */
 public class Player extends Entity
 {
+    String name;
+    
+    long record_time = 0;
+    
     // Indica el nivel de poder del jugador
     private int power;
 
@@ -449,7 +453,7 @@ public class Player extends Entity
                     }
                     break;
             // Nivel 2 -> Nivel 3
-            case 2: if(this.getScore() >= 2400)
+            case 2: if(this.getScore() >= 1800)
                     {
                         this.setPower(this.getPower() + 1);
                         this.setScore(0);
@@ -457,7 +461,7 @@ public class Player extends Entity
                     }
                     break;
             // Nivel 3 -> Nivel 4
-            case 3: if(this.getScore() >= 3600)
+            case 3: if(this.getScore() >= 2400)
                     {
                         this.setPower(this.getPower() + 1);
                         this.setScore(0);
@@ -465,8 +469,9 @@ public class Player extends Entity
                     }
                     break;
             // Nivel 4 -> Nivel 5
-            case 4: if(this.getScore() >= 5000)
+            case 4: if(this.getScore() >= 3000)
                     {
+                        this.setPower(this.getPower() + 1);
                         this.setScore(0);
                         this.setHearts(this.getHearts() + 1);
                     }
@@ -510,6 +515,14 @@ public class Player extends Entity
                 this.setDeath(false);
             }
         }
+    }
+    
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    public void setTime(int time){
+        this.record_time = time;
     }
 }
 

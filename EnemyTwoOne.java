@@ -372,7 +372,7 @@ public class EnemyTwoOne extends EnemyTwo
             if (this.getShotTime() == SHOT_LIMIT)
             {
                     World world = this.getWorld();
-                    Proyectile proyectile = new Proyectile(this.getX(), this.getY() + 7, 4, 0, 2, this.getProyPhoto());
+                    Proyectile proyectile = new Proyectile(this.getX(), this.getY() + 7, 6, 0, 2, this.getProyPhoto());
                     world.addObject(proyectile, proyectile.getPositionX(), proyectile.getPositionY());
                     this.setShotTime(0);
                     shot.setVolume(30);

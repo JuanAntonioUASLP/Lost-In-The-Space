@@ -53,7 +53,7 @@ public class EnemyOneTwo extends EnemyOne
     // Se definen atributos del enemigo
     public void startEnemy(){
         this.setLoot(75);
-        this.setHP(16);
+        this.setHP(9);
         this.setVelocityX(3);
         this.setVelocityY(0);
         this.setRotation(90);

@@ -1,4 +1,6 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.time.Instant;
+import java.time.Duration;
 
 /**
  * Clase de la interfaz
@@ -6,6 +8,9 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Interface extends Actor
 {   
+    Instant start = null;
+    Instant finish = null;
+    
     // Texto mostrado en el marcador
     private String text;
     
@@ -19,7 +24,7 @@ public class Interface extends Actor
     }
     
     // Se actualiza la informacion del texto
-    public void actualiceScore(Player player)
+    public void updateScore(Player player)
     {
         int power = player.getPower();
         int score = player.getScore();
